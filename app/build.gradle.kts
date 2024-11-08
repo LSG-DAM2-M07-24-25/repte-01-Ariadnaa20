@@ -3,6 +3,9 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
+
+
+
 android {
     namespace = "com.example.androidstudio_koala_template"
     compileSdk = 35
@@ -67,3 +70,4 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
