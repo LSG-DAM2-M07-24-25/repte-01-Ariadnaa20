@@ -6,6 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -35,6 +39,7 @@ fun AppContent(modifier: Modifier = Modifier) {
     var minValue by remember { mutableStateOf("0") }
     var maxValue by remember { mutableStateOf("10") }
     var sliderValue by remember { mutableStateOf(3f) }
+    var currentIcon by remember { mutableStateOf(Icons.Default.Add) } // Icono inicial
 
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -42,13 +47,23 @@ fun AppContent(modifier: Modifier = Modifier) {
     ) {
         Text(text = "Repte 01", style = MaterialTheme.typography.headlineMedium)
 
-        // Dropdown for Icon Selection
+        // Dropdown para seleccionar el icono
         DropdownMenuComponent(
             selectedIcon = selectedIcon,
-            onIconSelected = { selectedIcon = it }
+            onIconSelected = { icon ->
+                selectedIcon = icon
+                currentIcon = when (icon) {
+                    "Add" -> Icons.Default.Add
+                    "Call" -> Icons.Default.Call
+                    "Email" -> Icons.Default.Email
+                    else -> Icons.Default.Add
+                }
+            }
         )
 
-        // Input Fields for Min and Max values
+        Divider(modifier = Modifier.padding(vertical = 16.dp))
+
+        // Campos de entrada para valores mínimos y máximos
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -84,18 +99,26 @@ fun AppContent(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Send Button
-        Button(onClick = { /* Aquí iría la lógica para actualizar el icono */ }) {
+        // Botón Enviar
+        Button(onClick = { /* Puedes agregar lógica adicional si es necesario */ }) {
             Text("Enviar")
         }
 
-        // Display Selected Icon with Slider Value
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 16.dp)) {
-            Text(
-                text = "👍", // Aquí puedes cambiar el texto por el icono seleccionado si tienes un conjunto de iconos
-                fontSize = 48.sp,
-                color = MaterialTheme.colorScheme.primary
-            )
+        // Mostrar el icono seleccionado con el valor del Slider en un BadgedBox
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            BadgedBox(
+                badge = { Text(text = sliderValue.toInt().toString()) },
+                modifier = Modifier.size(48.dp)
+            ) {
+                Icon(
+                    imageVector = currentIcon,
+                    contentDescription = "Icono seleccionado",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = sliderValue.toInt().toString(),
@@ -111,7 +134,7 @@ fun DropdownMenuComponent(selectedIcon: String, onIconSelected: (String) -> Unit
     val options = listOf("Add", "Call", "Email", "Icon Default")
 
     Box {
-        OutlinedButton(onClick = { expanded = true }) { // Cambiado a OutlinedButton para asemejarse al estilo desplegable
+        OutlinedButton(onClick = { expanded = true }) {
             Text(text = selectedIcon)
         }
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
