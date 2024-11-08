@@ -92,7 +92,7 @@ fun AppContent(modifier: Modifier = Modifier) {
         // Display Selected Icon with Slider Value
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 16.dp)) {
             Text(
-                text = "👍",
+                text = "👍", // Aquí puedes cambiar el texto por el icono seleccionado si tienes un conjunto de iconos
                 fontSize = 48.sp,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -111,7 +111,7 @@ fun DropdownMenuComponent(selectedIcon: String, onIconSelected: (String) -> Unit
     val options = listOf("Add", "Call", "Email", "Icon Default")
 
     Box {
-        TextButton(onClick = { expanded = true }) {
+        OutlinedButton(onClick = { expanded = true }) { // Cambiado a OutlinedButton para asemejarse al estilo desplegable
             Text(text = selectedIcon)
         }
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
