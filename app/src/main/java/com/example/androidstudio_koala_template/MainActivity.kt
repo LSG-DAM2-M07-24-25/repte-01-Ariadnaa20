@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.androidstudio_koala_template.ui.theme.AndroidStudioKoalaTemplateTheme
 
 class MainActivity : ComponentActivity() {
@@ -53,19 +54,24 @@ fun AppContent(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
         ) {
-            BasicTextField(
-                value = minValue,
-                onValueChange = { minValue = it },
-                modifier = Modifier.weight(1f),
-                textStyle = LocalTextStyle.current
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            BasicTextField(
-                value = maxValue,
-                onValueChange = { maxValue = it },
-                modifier = Modifier.weight(1f),
-                textStyle = LocalTextStyle.current
-            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text("Min:")
+                BasicTextField(
+                    value = minValue,
+                    onValueChange = { minValue = it },
+                    modifier = Modifier.width(50.dp),
+                    textStyle = LocalTextStyle.current.copy(fontSize = 16.sp)
+                )
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text("Max:")
+                BasicTextField(
+                    value = maxValue,
+                    onValueChange = { maxValue = it },
+                    modifier = Modifier.width(50.dp),
+                    textStyle = LocalTextStyle.current.copy(fontSize = 16.sp)
+                )
+            }
         }
 
         // Slider
@@ -79,16 +85,23 @@ fun AppContent(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
 
         // Send Button
-        Button(onClick = { /* Handle icon update */ }) {
+        Button(onClick = { /* Aquí iría la lógica para actualizar el icono */ }) {
             Text("Enviar")
         }
 
-        // Display Selected Icon
-        Text(
-            text = "$selectedIcon ${sliderValue.toInt()}",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(top = 16.dp)
-        )
+        // Display Selected Icon with Slider Value
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 16.dp)) {
+            Text(
+                text = "👍",
+                fontSize = 48.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = sliderValue.toInt().toString(),
+                fontSize = 32.sp
+            )
+        }
     }
 }
 
